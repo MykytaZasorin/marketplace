@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
-console.log('Пароль из .env:', ADMIN_PASSWORD); // <- добавляем для отладки
 
 function Login() {
   const [password, setPassword] = useState('');

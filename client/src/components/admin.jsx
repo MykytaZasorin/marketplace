@@ -76,12 +76,17 @@ function Admin() {
 
   const handleLogout = () => {
     localStorage.removeItem('isAdmin');
-    navigate('/'); // возвращаем на главную страницу
+    navigate('/');
   };
 
   return (
     <div style={{ padding: 20 }}>
       <h1>Адмін-панель — {editingId ? 'Редагувати товар' : 'Додати товар'}</h1>
+
+      <button onClick={handleLogout} style={{ marginBottom: '20px' }}>
+        Вийти
+      </button>
+
       <form onSubmit={addProduct}>
         <input
           type="text"
