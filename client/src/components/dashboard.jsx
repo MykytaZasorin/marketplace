@@ -1,6 +1,6 @@
 import useAuth from './useAuth';
 
-export default function dashboard() {
+export default function Dashboard() {
   useAuth();
 
   return (

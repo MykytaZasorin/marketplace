@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 export default function ProductList() {
+  useAuth();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [maxPrice, setMaxPrice] = useState('');

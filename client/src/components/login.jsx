@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
 function Login() {
+  useAuth();
   const [isRegister, setIsRegister] = useState(false);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,13 +28,21 @@ function Login() {
       return;
     }
 
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.removeItem('loginAttempts');
+      localStorage.removeItem('lockUntil');
+      navigate('/admin');
+      return;
+    }
+
     if (!emailRegex.test(email)) {
       alert('Введіть коректний email');
       return;
     }
 
     if (isRegister) {
-      if (!username || !password) {
+      if (!email || !password) {
         alert('Введіть логін та пароль');
         return;
       }
@@ -41,7 +51,7 @@ function Login() {
         const res = await fetch('http://localhost:5000/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: username, password }),
+          body: JSON.stringify({ email, password }),
         });
 
         const data = await res.json();
@@ -53,58 +63,49 @@ function Login() {
 
         alert('Користувач зареєстрований! Тепер можна увійти.');
         setIsRegister(false);
-        setUsername('');
+        setEmail('');
         setPassword('');
       } catch (err) {
         console.error(err);
         alert('Помилка сервера');
       }
     } else {
-      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        localStorage.setItem('isAdmin', 'true');
+      try {
+        console.log('Logging in user with:', { email, password });
+        const res = await fetch('http://localhost:5000/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          const newAttempts = attempts + 1;
+          localStorage.setItem('loginAttempts', newAttempts);
+
+          if (newAttempts >= 3) {
+            const lockTime = now + 30 * 60 * 1000;
+            localStorage.setItem('lockUntil', lockTime);
+            alert(
+              'Забагато невдалих спроб! Спробуйте через 30 хвилин або скиньте пароль.'
+            );
+          } else {
+            alert(
+              `Невірний логін або пароль. Залишилось спроб: ${3 - newAttempts}`
+            );
+          }
+          return;
+        }
+
         localStorage.removeItem('loginAttempts');
         localStorage.removeItem('lockUntil');
-        navigate('/admin');
-      } else {
-        try {
-          const res = await fetch('http://localhost:5000/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: username, password }),
-          });
 
-          const data = await res.json();
-
-          if (!res.ok) {
-            // ошибка логина → увеличиваем попытку
-            const newAttempts = attempts + 1;
-            localStorage.setItem('loginAttempts', newAttempts);
-
-            if (newAttempts >= 3) {
-              const lockTime = now + 30 * 60 * 1000; // 30 минут
-              localStorage.setItem('lockUntil', lockTime);
-              alert(
-                'Забагато невдалих спроб! Спробуйте через 30 хвилин або скиньте пароль.'
-              );
-            } else {
-              alert(
-                `Невірний логін або пароль. Залишилось спроб: ${
-                  3 - newAttempts
-                }`
-              );
-            }
-            return;
-          }
-
-          localStorage.removeItem('loginAttempts');
-          localStorage.removeItem('lockUntil');
-
-          localStorage.setItem('userToken', data.token);
-          navigate('/');
-        } catch (err) {
-          console.error(err);
-          alert('Помилка сервера');
-        }
+        localStorage.setItem('userToken', data.token);
+        navigate('/');
+      } catch (err) {
+        console.error(err);
+        alert('Помилка сервера');
       }
     }
   };
@@ -116,8 +117,8 @@ function Login() {
         <input
           type="text"
           placeholder="Логін"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           style={{ padding: '5px', marginRight: '10px', marginBottom: '10px' }}
         />
         <br />
@@ -138,6 +139,12 @@ function Login() {
         style={{ marginTop: '10px' }}
       >
         {isRegister ? 'Увійти' : 'Зареєструватися'}
+      </button>
+      <button
+        style={{ marginTop: '10px' }}
+        onClick={() => navigate('/forgot-password')}
+      >
+        Забули пароль?
       </button>
     </div>
   );

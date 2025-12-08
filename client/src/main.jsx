@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import ProductList from './components/productlist';
-import Admin from './components/admin';
-import Login from './components/login';
-import ProductPage from './components/productPage';
-import ProtectedRoute from './components/protectRoute';
+import ProductList from './components/Productlist';
+import Admin from './components/Admin';
+import Login from './components/Login';
+import ProductPage from './components/ProductPage';
+import ProtectedAdmin from './components/ProtectedAdmin';
+import ForgotPassword from './pages/forgotPassword';
+import ResetPassword from './pages/resetPassword';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,11 +19,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedAdmin>
               <Admin />
-            </ProtectedRoute>
+            </ProtectedAdmin>
           }
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset/:token" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
