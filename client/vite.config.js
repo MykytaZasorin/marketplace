@@ -3,6 +3,7 @@ import { glob } from 'glob';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
 import SortCss from 'postcss-sort-media-queries';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ command }) => {
   return {
@@ -39,6 +40,7 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       injectHTML(),
+      react(),
       FullReload(['./src/**/**.html']),
       SortCss({
         sort: 'mobile-first',
