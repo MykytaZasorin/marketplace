@@ -93,7 +93,7 @@ export default function ProductList() {
           cursor: 'pointer',
         }}
       >
-        Адмінка
+        Вхід
       </button>
     </div>
   );
