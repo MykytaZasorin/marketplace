@@ -5,11 +5,7 @@ import ProductList from './components/productlist';
 import Admin from './components/admin';
 import Login from './components/login';
 import ProductPage from './components/productPage';
-
-function ProtectedAdmin({ children }) {
-  const isAdmin = localStorage.getItem('isAdmin') === 'true';
-  return isAdmin ? children : <Navigate to="/login" />;
-}
+import ProtectedRoute from './components/protectRoute';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -21,9 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route
           path="/admin"
           element={
-            <ProtectedAdmin>
+            <ProtectedRoute>
               <Admin />
-            </ProtectedAdmin>
+            </ProtectedRoute>
           }
         />
       </Routes>

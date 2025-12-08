@@ -34,9 +34,14 @@ function Admin() {
       ? `http://localhost:5000/products/${editingId}`
       : 'http://localhost:5000/products';
 
+    const token = localStorage.getItem('userToken');
+
     const res = await fetch(url, {
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(newProduct),
     });
 
