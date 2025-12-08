@@ -51,7 +51,7 @@ function Login() {
         const res = await fetch('http://localhost:5000/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email: email.toLowerCase(), password }),
         });
 
         const data = await res.json();
@@ -71,7 +71,6 @@ function Login() {
       }
     } else {
       try {
-        console.log('Logging in user with:', { email, password });
         const res = await fetch('http://localhost:5000/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

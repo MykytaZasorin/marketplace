@@ -9,9 +9,10 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
+  const normalizedEmail = email.toLowerCase();
   try {
     const hashed = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashed });
+    const user = new User({ email: normalizedEmail, password: hashed });
     await user.save();
     res.status(201).json({ message: "User registered" });
   } catch (err) {
@@ -21,8 +22,9 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  const normalizedEmail = email.toLowerCase();
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) return res.status(400).json({ error: "User not found" });
 
     if (user.lockUntil && user.lockUntil > new Date()) {
