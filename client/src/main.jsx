@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProductList from './components/Productlist';
@@ -8,10 +8,16 @@ import ProductPage from './components/ProductPage';
 import ProtectedAdmin from './components/ProtectedAdmin';
 import ForgotPassword from './pages/forgotPassword';
 import ResetPassword from './pages/resetPassword';
+import Cart from './components/Cart';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
+function AppWrapper() {
+  const [cartItems, setCartItems] = useState([]);
+
+  return (
+    <>
+      {}
+      <Cart items={cartItems} />
+
       <Routes>
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/" element={<ProductList />} />
@@ -27,6 +33,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset/:token" element={<ResetPassword />} />
       </Routes>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AppWrapper />
     </BrowserRouter>
   </React.StrictMode>
 );

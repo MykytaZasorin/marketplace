@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
 
 export default function ProductPage() {
-  useAuth();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
