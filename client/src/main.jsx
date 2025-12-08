@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProductList from './components/productlist';
 import Admin from './components/admin';
 import Login from './components/login';
+import ProductPage from './components/productPage';
 
 function ProtectedAdmin({ children }) {
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/" element={<ProductList />} />
         <Route path="/login" element={<Login />} />
         <Route

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -21,7 +22,6 @@ export default function ProductList() {
     navigate('/login');
   };
 
-  // Динамическая фильтрация по названию и цене
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.title
       .toLowerCase()
@@ -62,12 +62,17 @@ export default function ProductList() {
                 width: '150px',
               }}
             >
-              <img
-                src={product.image}
-                alt={product.title}
-                style={{ width: '100%', height: '100px', objectFit: 'cover' }}
-              />
-              <h3>{product.title}</h3>
+              <Link
+                to={`/products/${product._id}`}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  style={{ width: '100%', height: '100px', objectFit: 'cover' }}
+                />
+                <h3>{product.title}</h3>
+              </Link>
               <p>Ціна: {product.price} грн</p>
             </div>
           ))
