@@ -1,30 +1,46 @@
 import express from "express";
-import Product from "../models/Product.js";
+import Product from "../models/product.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
-    res.status(200).json(products);
+    res.json(products);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: err.message });
   }
 });
 
 router.post("/", async (req, res) => {
+  const { title, price, image } = req.body;
+  const product = new Product({ title, price, image });
+
   try {
-    const { title, price, image } = req.body;
-
-    const newProduct = new Product({
-      title,
-      price,
-      image,
-    });
-
-    await newProduct.save();
+    const newProduct = await product.save();
     res.status(201).json(newProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ message: "Товар видалено!" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
