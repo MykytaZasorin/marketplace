@@ -8,11 +8,28 @@ function Login() {
   const [isRegister, setIsRegister] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleLogin = async e => {
     e.preventDefault();
+
+    const now = Date.now();
+    const attempts = Number(localStorage.getItem('loginAttempts') || 0);
+    const lockUntil = Number(localStorage.getItem('lockUntil') || 0);
+
+    if (lockUntil > now) {
+      const minutesLeft = Math.ceil((lockUntil - now) / 60000);
+      alert(
+        `Ви перевищили кількість спроб. Спробуйте через ${minutesLeft} хвилин або скиньте пароль.`
+      );
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      alert('Введіть коректний email');
+      return;
+    }
 
     if (isRegister) {
       if (!username || !password) {
@@ -45,6 +62,8 @@ function Login() {
     } else {
       if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
         localStorage.setItem('isAdmin', 'true');
+        localStorage.removeItem('loginAttempts');
+        localStorage.removeItem('lockUntil');
         navigate('/admin');
       } else {
         try {
@@ -57,9 +76,28 @@ function Login() {
           const data = await res.json();
 
           if (!res.ok) {
-            alert(data.error || 'Невірний логін або пароль');
+            // ошибка логина → увеличиваем попытку
+            const newAttempts = attempts + 1;
+            localStorage.setItem('loginAttempts', newAttempts);
+
+            if (newAttempts >= 3) {
+              const lockTime = now + 30 * 60 * 1000; // 30 минут
+              localStorage.setItem('lockUntil', lockTime);
+              alert(
+                'Забагато невдалих спроб! Спробуйте через 30 хвилин або скиньте пароль.'
+              );
+            } else {
+              alert(
+                `Невірний логін або пароль. Залишилось спроб: ${
+                  3 - newAttempts
+                }`
+              );
+            }
             return;
           }
+
+          localStorage.removeItem('loginAttempts');
+          localStorage.removeItem('lockUntil');
 
           localStorage.setItem('userToken', data.token);
           navigate('/');
