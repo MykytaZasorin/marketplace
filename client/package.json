@@ -1,11 +1,11 @@
 {
-  "name": "mini_market",
+  "name": "marketplace",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/mini_market/",
+    "build": "vite build --base=/marketplace/",
     "preview": "vite preview"
   },
   "devDependencies": {
