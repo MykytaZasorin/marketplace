@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5000/products')
@@ -13,9 +15,13 @@ export default function ProductList() {
       .catch(err => console.error(err));
   }, []);
 
+  const goToAdmin = () => {
+    navigate('/login');
+  };
+
   return (
-    <div>
-      <h1>Products</h1>
+    <div style={{ padding: 20 }}>
+      <h1>Список товарів</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
         {products.map(product => (
           <div
@@ -27,17 +33,30 @@ export default function ProductList() {
             }}
           >
             <img
-              src={product.imageUrl}
+              src={product.image}
               alt={product.title}
-              style={{ width: '100%' }}
+              style={{ width: '100%', height: '100px', objectFit: 'cover' }}
             />
             <h3>{product.title}</h3>
-            <p>{product.description}</p>
-            <p>${product.price}</p>
-            <p>Stock: {product.stock}</p>
+            <p>Ціна: {product.price} грн</p>
           </div>
         ))}
       </div>
+
+      <button
+        onClick={goToAdmin}
+        style={{
+          marginTop: 20,
+          padding: '10px 20px',
+          backgroundColor: '#007bff',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        }}
+      >
+        Адмінка
+      </button>
     </div>
   );
 }

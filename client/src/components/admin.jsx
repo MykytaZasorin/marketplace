@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Admin() {
   const [title, setTitle] = useState('');
@@ -6,6 +7,8 @@ function Admin() {
   const [image, setImage] = useState('');
   const [products, setProducts] = useState([]);
   const [editingId, setEditingId] = useState(null);
+
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -69,6 +72,11 @@ function Admin() {
     } else {
       alert('Помилка при видаленні товару');
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    navigate('/'); // возвращаем на главную страницу
   };
 
   return (
