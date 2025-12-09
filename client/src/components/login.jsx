@@ -42,8 +42,11 @@ function Login() {
       localStorage.setItem('userRole', data.role || 'user');
 
       if (data.role === 'admin') {
+        localStorage.setItem('isAdmin', 'true');
         navigate('/admin');
       } else {
+        localStorage.setItem('userToken', data.token);
+        localStorage.setItem('userRole', data.role || 'user');
         navigate('/');
       }
     } catch (err) {
