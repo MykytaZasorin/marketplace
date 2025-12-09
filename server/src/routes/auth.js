@@ -89,14 +89,14 @@ router.post("/forgot", async (req, res) => {
 });
 
 router.post("/reset/:token", async (req, res) => {
-  const hashedToken = crypto
+  const hashed = crypto
     .createHash("sha256")
     .update(req.params.token)
     .digest("hex");
 
   try {
     const user = await User.findOne({
-      resetToken: hashedToken,
+      resetToken: hashed,
       resetTokenExpire: { $gt: Date.now() },
     });
 
