@@ -13,6 +13,17 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+
+  isBlocked: {
+    type: Boolean,
+    default: false,
+  },
+
   loginAttempts: {
     type: Number,
     default: 0,
@@ -23,15 +34,18 @@ const UserSchema = new mongoose.Schema({
     default: null,
   },
 
-  resetPasswordToken: {
-    type: String,
-    default: null,
-  },
+  resetToken: String,
+  resetTokenExpire: Date,
 
-  resetPasswordExpires: {
-    type: Date,
-    default: null,
-  },
+  //   resetPasswordToken: {
+  //     type: String,
+  //     default: null,
+  //   },
+
+  //   resetPasswordExpires: {
+  //     type: Date,
+  //     default: null,
+  //   },
 });
 
 export default mongoose.model("User", UserSchema);
