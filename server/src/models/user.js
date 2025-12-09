@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    match: [/^\S+@\S+\.\S+$/, "Invalid email format"], // Валидация email
+    match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
   },
 
   password: {
@@ -34,18 +34,8 @@ const UserSchema = new mongoose.Schema({
     default: null,
   },
 
-  resetToken: String,
-  resetTokenExpire: Date,
-
-  //   resetPasswordToken: {
-  //     type: String,
-  //     default: null,
-  //   },
-
-  //   resetPasswordExpires: {
-  //     type: Date,
-  //     default: null,
-  //   },
+  resetToken: { type: String, default: null },
+  resetTokenExpire: { type: Date, default: null },
 });
 
 export default mongoose.model("User", UserSchema);

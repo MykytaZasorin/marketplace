@@ -34,7 +34,9 @@ function Login() {
       return;
     }
 
-    if (!emailRegex.test(email)) {
+    const normalizedEmail = email.toLowerCase();
+
+    if (!emailRegex.test(normalizedEmail)) {
       alert('Введіть коректний email');
       return;
     }

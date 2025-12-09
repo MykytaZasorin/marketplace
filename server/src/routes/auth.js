@@ -2,14 +2,19 @@ import express from "express";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
 import crypto from "crypto";
 
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+
   const normalizedEmail = email.toLowerCase();
+
   try {
     const hashed = await bcrypt.hash(password, 10);
     const user = new User({
@@ -55,6 +60,10 @@ router.post("/login", async (req, res) => {
     user.lockUntil = null;
     await user.save();
 
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ error: "JWT_SECRET is not set" });
+    }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -67,8 +76,14 @@ router.post("/login", async (req, res) => {
 router.post("/forgot", async (req, res) => {
   const { email } = req.body;
 
+  if (!email || email.trim() === "") {
+    return res.status(400).json({ error: "Email не вказаний" });
+  }
+
+  const normalizedEmail = email.toLowerCase();
+
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user)
       return res.status(400).json({ error: "Користувач не знайдений" });
 
@@ -76,7 +91,7 @@ router.post("/forgot", async (req, res) => {
     const hashed = crypto.createHash("sha256").update(resetToken).digest("hex");
 
     user.resetToken = hashed;
-    user.hashed = Date.now() + 30 * 60 * 1000;
+    user.resetTokenExpire = Date.now() + 30 * 60 * 1000;
 
     await user.save();
 
