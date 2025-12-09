@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
-const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+import useAuth from '../hooks/useAuth';
 
 function Login() {
+  useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,101 +13,42 @@ function Login() {
   const handleLogin = async e => {
     e.preventDefault();
 
-    const now = Date.now();
-    const attempts = Number(localStorage.getItem('loginAttempts') || 0);
-    const lockUntil = Number(localStorage.getItem('lockUntil') || 0);
-
-    if (lockUntil > now) {
-      const minutesLeft = Math.ceil((lockUntil - now) / 60000);
-      alert(
-        `Ви перевищили кількість спроб. Спробуйте через ${minutesLeft} хвилин або скиньте пароль.`
-      );
+    if (!email || !password) {
+      alert('Введіть логін та пароль');
       return;
     }
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      localStorage.setItem('userToken', 'admin-token');
-      localStorage.setItem('userRole', 'admin');
-      localStorage.setItem('isAdmin', 'true');
-      localStorage.removeItem('loginAttempts');
-      localStorage.removeItem('lockUntil');
-      navigate('/admin');
-      return;
-    }
+    const isAdminLogin = email.toLowerCase() === 'admin';
 
-    const normalizedEmail = email.toLowerCase();
-
-    if (!emailRegex.test(normalizedEmail)) {
+    if (!isAdminLogin && !emailRegex.test(email)) {
       alert('Введіть коректний email');
       return;
     }
 
-    if (isRegister) {
-      if (!email || !password) {
-        alert('Введіть логін та пароль');
+    try {
+      const res = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.toLowerCase(), password }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || 'Невірний логін або пароль');
         return;
       }
 
-      try {
-        const res = await fetch('http://localhost:5000/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email.toLowerCase(), password }),
-        });
+      localStorage.setItem('userToken', data.token);
+      localStorage.setItem('userRole', data.role || 'user');
 
-        const data = await res.json();
-
-        if (!res.ok) {
-          alert(data.error || 'Помилка при реєстрації');
-          return;
-        }
-
-        alert('Користувач зареєстрований! Тепер можна увійти.');
-        setIsRegister(false);
-        setEmail('');
-        setPassword('');
-      } catch (err) {
-        console.error(err);
-        alert('Помилка сервера');
-      }
-    } else {
-      try {
-        const res = await fetch('http://localhost:5000/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          const newAttempts = attempts + 1;
-          localStorage.setItem('loginAttempts', newAttempts);
-
-          if (newAttempts >= 3) {
-            const lockTime = now + 30 * 60 * 1000;
-            localStorage.setItem('lockUntil', lockTime);
-            alert(
-              'Забагато невдалих спроб! Спробуйте через 30 хвилин або скиньте пароль.'
-            );
-          } else {
-            alert(
-              `Невірний логін або пароль. Залишилось спроб: ${3 - newAttempts}`
-            );
-          }
-          return;
-        }
-
-        localStorage.removeItem('loginAttempts');
-        localStorage.removeItem('lockUntil');
-
-        localStorage.setItem('userToken', data.token);
-        localStorage.setItem('userRole', data.role);
+      if (data.role === 'admin') {
+        navigate('/admin');
+      } else {
         navigate('/');
-      } catch (err) {
-        console.error(err);
-        alert('Помилка сервера');
       }
+    } catch (err) {
+      console.error(err);
+      alert('Помилка сервера');
     }
   };
 
@@ -136,17 +76,12 @@ function Login() {
           {isRegister ? 'Зареєструватися' : 'Увійти'}
         </button>
       </form>
+
       <button
         onClick={() => setIsRegister(!isRegister)}
         style={{ marginTop: '10px' }}
       >
         {isRegister ? 'Увійти' : 'Зареєструватися'}
-      </button>
-      <button
-        style={{ marginTop: '10px' }}
-        onClick={() => navigate('/forgot-password')}
-      >
-        Забули пароль?
       </button>
     </div>
   );

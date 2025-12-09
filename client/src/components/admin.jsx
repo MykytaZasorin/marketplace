@@ -13,7 +13,7 @@ function Admin() {
   useEffect(() => {
     const role = localStorage.getItem('userRole');
     if (role !== 'admin') {
-      alert('Немає доступу до адмін-панелі');
+      alert('У вас немає доступу до цієї сторінки');
       navigate('/');
     }
   }, [navigate]);
@@ -34,14 +34,11 @@ function Admin() {
 
   const addProduct = async e => {
     e.preventDefault();
-
     const newProduct = { title, price: Number(price), image };
-
     const method = editingId ? 'PUT' : 'POST';
     const url = editingId
       ? `http://localhost:5000/products/${editingId}`
       : 'http://localhost:5000/products';
-
     const token = localStorage.getItem('userToken');
 
     const res = await fetch(url, {
@@ -78,7 +75,6 @@ function Admin() {
     const res = await fetch(`http://localhost:5000/products/${id}`, {
       method: 'DELETE',
     });
-
     if (res.ok) {
       alert('Товар видалено!');
       fetchProducts();
@@ -88,14 +84,14 @@ function Admin() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userToken');
     navigate('/');
   };
 
   return (
     <div style={{ padding: 20 }}>
       <h1>Адмін-панель — {editingId ? 'Редагувати товар' : 'Додати товар'}</h1>
-
       <button onClick={handleLogout} style={{ marginBottom: '20px' }}>
         Вийти
       </button>
@@ -104,27 +100,24 @@ function Admin() {
         <input
           type="text"
           placeholder="Назва товару"
-          value={title || ''}
+          value={title}
           onChange={e => setTitle(e.target.value)}
         />
         <br />
-
         <input
           type="number"
           placeholder="Ціна"
-          value={price || ''}
+          value={price}
           onChange={e => setPrice(e.target.value)}
         />
         <br />
-
         <input
           type="text"
           placeholder="URL зображення"
-          value={image || ''}
+          value={image}
           onChange={e => setImage(e.target.value)}
         />
         <br />
-
         <button type="submit">
           {editingId ? 'Зберегти зміни' : 'Додати товар'}
         </button>
