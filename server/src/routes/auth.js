@@ -73,34 +73,16 @@ router.post("/forgot", async (req, res) => {
       return res.status(400).json({ error: "Користувач не знайдений" });
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenHashed = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest("hex");
+    const hashed = crypto.createHash("sha256").update(resetToken).digest("hex");
 
-    user.resetToken = resetTokenHashed;
-    user.resetTokenExpire = Date.now() + 30 * 60 * 1000; // 30 минут
+    user.resetToken = hashed;
+    user.hashed = Date.now() + 30 * 60 * 1000;
+
     await user.save();
 
     const resetUrl = `http://localhost:5173/reset/${resetToken}`;
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_FROM,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      to: user.email,
-      from: process.env.EMAIL_FROM,
-      subject: "Відновлення паролю",
-      html: `<h3>Натисніть для зміни паролю:</h3>
-             <a href="${resetUrl}">${resetUrl}</a>`,
-    });
-
-    res.json({ message: "Лист відправлено" });
+    res.json({ message: "Лист відправлено", resetUrl });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
