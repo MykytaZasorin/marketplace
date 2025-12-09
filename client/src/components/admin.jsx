@@ -10,6 +10,14 @@ function Admin() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const role = localStorage.getItem('userRole');
+    if (role !== 'admin') {
+      alert('Немає доступу до адмін-панелі');
+      navigate('/');
+    }
+  }, [navigate]);
+
   const fetchProducts = async () => {
     try {
       const res = await fetch('http://localhost:5000/products');

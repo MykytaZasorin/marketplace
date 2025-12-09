@@ -27,6 +27,8 @@ function Login() {
     }
 
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem('userToken', 'admin-token');
+      localStorage.setItem('userRole', 'admin');
       localStorage.setItem('isAdmin', 'true');
       localStorage.removeItem('loginAttempts');
       localStorage.removeItem('lockUntil');
@@ -101,6 +103,7 @@ function Login() {
         localStorage.removeItem('lockUntil');
 
         localStorage.setItem('userToken', data.token);
+        localStorage.setItem('userRole', data.role);
         navigate('/');
       } catch (err) {
         console.error(err);
