@@ -31,8 +31,8 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email: normalizedEmail });
     if (!user) return res.status(400).json({ error: "User not found" });
 
-    if (user.lockUntil && user.lockUntil > new Date()) {
-      const minutesLeft = Math.ceil((user.lockUntil - new Date()) / 60000);
+    if (user.lockUntil && user.lockUntil > Date.now()) {
+      const minutesLeft = Math.ceil((user.lockUntil - Date.now()) / 60000);
       return res
         .status(403)
         .json({ error: `Account locked. Try in ${minutesLeft} minutes.` });
@@ -40,10 +40,10 @@ router.post("/login", async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      user.loginAttempts += 1;
+      user.loginAttempts++;
 
       if (user.loginAttempts >= 3) {
-        user.lockUntil = new Date(Date.now() + 30 * 60 * 1000);
+        user.lockUntil = Date.now() + 30 * 60000;
         user.loginAttempts = 0;
       }
 
@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    res.json({ token, email: user.email });
+    res.json({ token, email: user.email, role: user.role });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
