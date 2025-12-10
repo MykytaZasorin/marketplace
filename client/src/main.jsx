@@ -16,30 +16,21 @@ import ForgotPassword from './pages/forgotPassword';
 import ResetPassword from './pages/resetPassword';
 import Cart from './components/Cart';
 import AdminLayout from './admin/AdminLayout';
-import Dashboard from './admin/Dashboard';
+import Dashboard from './admin/AdminDashboard';
 import Products from './admin/Products';
 
 function AppWrapper() {
   const [cartItems, setCartItems] = useState([]);
+  const location = useLocation();
 
   return (
     <>
-      {location.pathname.startsWith('/admin') ? null : (
-        <Cart items={cartItems} />
-      )}
+      {!location.pathname.startsWith('/admin') && <Cart items={cartItems} />}
 
       <Routes>
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/" element={<ProductList />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedAdmin>
-              <Admin />
-            </ProtectedAdmin>
-          }
-        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset/:token" element={<ResetPassword />} />
 
