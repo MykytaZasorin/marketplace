@@ -17,7 +17,8 @@ export default function Clients() {
       try {
         const res = await fetch('http://localhost:5000/users');
         const data = await res.json();
-        setClients(data);
+        const filteredClients = data.filter(client => client.role !== 'admin');
+        setClients(filteredClients);
       } catch (err) {
         console.error(err);
       }
@@ -29,13 +30,13 @@ export default function Clients() {
   return (
     <Paper sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 2 }}>
-        Клієнтська база
+        Clients base
       </Typography>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Email</TableCell>
-            <TableCell>Роль</TableCell>
+            <TableCell>Role</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

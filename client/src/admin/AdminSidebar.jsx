@@ -11,11 +11,6 @@ export default function AdminSidebar() {
   return (
     <Drawer variant="permanent" sx={{ width: 240 }}>
       <List sx={{ width: 240 }}>
-        <ListItemButton onClick={() => navigate('/admin/dashboard')}>
-          <DashboardIcon sx={{ mr: 1 }} />
-          <ListItemText primary="Dashboard" />
-        </ListItemButton>
-
         <ListItemButton onClick={() => navigate('/admin/products')}>
           <StoreIcon sx={{ mr: 1 }} />
           <ListItemText primary="Products" />
@@ -26,9 +21,9 @@ export default function AdminSidebar() {
           <ListItemText primary="Clients" />
         </ListItemButton>
 
-        <ListItemButton onClick={() => navigate('/admin/sales')}>
-          <BarChartIcon sx={{ mr: 1 }} />
-          <ListItemText primary="Sales Stats" />
+        <ListItemButton onClick={() => navigate('/admin/dashboard')}>
+          <DashboardIcon sx={{ mr: 1 }} />
+          <ListItemText primary="Dashboard" />
         </ListItemButton>
       </List>
     </Drawer>
