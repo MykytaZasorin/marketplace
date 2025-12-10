@@ -29,8 +29,8 @@ export default function Clients() {
 
   return (
     <Paper sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Clients base
+      <Typography align="center" variant="h4" sx={{ mb: 2 }}>
+        Clients
       </Typography>
       <Table>
         <TableHead>
