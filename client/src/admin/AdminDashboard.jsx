@@ -1,14 +1,43 @@
-import { Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography, Box } from '@mui/material';
+import { PieChart } from '../utils/PieChart';
 
 export default function Dashboard() {
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography align="center" variant="h4">
-        Sales statistic
-      </Typography>
-      <Typography sx={{ mt: 2 }}>
-        Тут будуть графіки, статистика та загальний огляд.
-      </Typography>
-    </Paper>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 2,
+        mb: 2,
+      }}
+    >
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="h6">Sales by category</Typography>
+            <PieChart />
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="h6">Sales by month</Typography>
+            <PieChart />
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="h6">Sales by amount</Typography>
+            <PieChart />
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="h6">Users income</Typography>
+            <PieChart />
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
