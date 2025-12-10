@@ -18,6 +18,10 @@
   "author": "Alexander Repeta <alexander.repeta@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.6",
+    "@mui/material": "^7.3.6",
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.10.1",
     "vite-plugin-full-reload": "^1.2.0",
