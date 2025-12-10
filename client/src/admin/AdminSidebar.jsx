@@ -18,6 +18,11 @@ export default function AdminSidebar() {
           <StoreIcon sx={{ mr: 1 }} />
           <ListItemText primary="Products" />
         </ListItemButton>
+
+        <ListItemButton onClick={() => navigate('/admin/clients')}>
+          <StoreIcon sx={{ mr: 1 }} />
+          <ListItemText primary="Clients" />
+        </ListItemButton>
       </List>
     </Drawer>
   );
