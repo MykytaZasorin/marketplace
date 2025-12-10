@@ -16,7 +16,7 @@ export default function AdminHeader() {
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6">Admin Panel</Typography>
         <Button variant="contained" color="secondary" onClick={handleLogout}>
-          Вийти
+          Exit
         </Button>
       </Toolbar>
     </AppBar>
