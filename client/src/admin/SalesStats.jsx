@@ -16,7 +16,7 @@ export default function SalesStats() {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const res = await fetch('http://localhost:5000/sales'); // маршрут до API статистики
+        const res = await fetch('http://localhost:5000/sales');
         const data = await res.json();
         setSalesData(data);
       } catch (err) {

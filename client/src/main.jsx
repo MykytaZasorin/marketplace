@@ -8,7 +8,6 @@ import {
   useLocation,
 } from 'react-router-dom';
 import ProductList from './components/Productlist';
-import Admin from './components/Admin';
 import Login from './components/Login';
 import ProductPage from './components/ProductPage';
 import ProtectedAdmin from './components/ProtectedAdmin';
@@ -18,6 +17,8 @@ import Cart from './components/Cart';
 import AdminLayout from './admin/AdminLayout';
 import Dashboard from './admin/AdminDashboard';
 import Products from './admin/Products';
+import Clients from './admin/Clients';
+import SalesStats from './admin/SalesStats';
 
 function AppWrapper() {
   const [cartItems, setCartItems] = useState([]);
@@ -45,6 +46,8 @@ function AppWrapper() {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
+          <Route path="clients" element={<Clients />} />
+          <Route path="sales" element={<SalesStats />} />
         </Route>
       </Routes>
     </>
