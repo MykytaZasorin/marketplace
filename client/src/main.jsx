@@ -27,13 +27,13 @@ function AppWrapper() {
 
   return (
     <>
-      {!location.pathname.startsWith('/admin') && <Cart items={cartItems} />}
+      {/* {!location.pathname.startsWith('/admin') && <Cart items={cartItems} />} */}
 
       <Routes>
         <Route
           path="/"
           element={
-            <MainLayout>
+            <MainLayout cartItems={cartItems}>
               <ProductList />
             </MainLayout>
           }
@@ -41,7 +41,7 @@ function AppWrapper() {
         <Route
           path="/products/:id"
           element={
-            <MainLayout>
+            <MainLayout cartItems={cartItems}>
               <ProductPage />
             </MainLayout>
           }
@@ -49,7 +49,7 @@ function AppWrapper() {
         <Route
           path="/login"
           element={
-            <MainLayout>
+            <MainLayout cartItems={cartItems}>
               <Login />
             </MainLayout>
           }
@@ -57,7 +57,7 @@ function AppWrapper() {
         <Route
           path="/forgot-password"
           element={
-            <MainLayout>
+            <MainLayout cartItems={cartItems}>
               <ForgotPassword />
             </MainLayout>
           }
@@ -65,7 +65,7 @@ function AppWrapper() {
         <Route
           path="/reset/:token"
           element={
-            <MainLayout>
+            <MainLayout cartItems={cartItems}>
               <ResetPassword />
             </MainLayout>
           }

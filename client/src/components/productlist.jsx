@@ -100,12 +100,6 @@ export default function ProductList() {
           <Typography>Товари не знайдено</Typography>
         )}
       </Grid>
-
-      <Box sx={{ mt: 4, textAlign: 'center' }}>
-        <Button variant="contained" onClick={goToAdmin}>
-          Вхід
-        </Button>
-      </Box>
     </Box>
   );
 }
