@@ -27,8 +27,6 @@ function AppWrapper() {
 
   return (
     <>
-      {/* {!location.pathname.startsWith('/admin') && <Cart items={cartItems} />} */}
-
       <Routes>
         <Route
           path="/"

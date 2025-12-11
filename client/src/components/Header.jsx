@@ -36,11 +36,27 @@ export default function Header({ cartItems }) {
 
   return (
     <>
-      <AppBar position="static">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h6">My Shop</Typography>
+      <AppBar position="sticky" sx={{ top: 0, zIndex: 1100 }}>
+        <Toolbar
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box sx={{ zIndex: 1 }}>
+            <Typography variant="h6">TechMarket</Typography>
+          </Box>
 
-          <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+            }}
+          >
             <Button color="inherit" onClick={() => navigate('/')}>
               Home
             </Button>
