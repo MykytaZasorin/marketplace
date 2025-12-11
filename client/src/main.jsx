@@ -19,6 +19,7 @@ import Dashboard from './admin/AdminDashboard';
 import Products from './admin/Products';
 import Clients from './admin/Clients';
 import AddProduct from './admin/AddProduct';
+import MainLayout from './components/MainLayout';
 
 function AppWrapper() {
   const [cartItems, setCartItems] = useState([]);
@@ -29,11 +30,46 @@ function AppWrapper() {
       {!location.pathname.startsWith('/admin') && <Cart items={cartItems} />}
 
       <Routes>
-        <Route path="/products/:id" element={<ProductPage />} />
-        <Route path="/" element={<ProductList />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset/:token" element={<ResetPassword />} />
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <ProductList />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <MainLayout>
+              <ProductPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <MainLayout>
+              <Login />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <MainLayout>
+              <ForgotPassword />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/reset/:token"
+          element={
+            <MainLayout>
+              <ResetPassword />
+            </MainLayout>
+          }
+        />
 
         <Route
           path="/admin/*"
