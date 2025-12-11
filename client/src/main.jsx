@@ -18,6 +18,7 @@ import AdminLayout from './admin/AdminLayout';
 import Dashboard from './admin/AdminDashboard';
 import Products from './admin/Products';
 import Clients from './admin/Clients';
+import AddProduct from './admin/AddProduct';
 
 function AppWrapper() {
   const [cartItems, setCartItems] = useState([]);
@@ -46,6 +47,7 @@ function AppWrapper() {
           <Route path="products" element={<Products />} />
           <Route path="clients" element={<Clients />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="addproduct" element={<AddProduct />} />
         </Route>
       </Routes>
     </>

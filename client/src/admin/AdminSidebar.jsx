@@ -16,7 +16,7 @@ export default function AdminSidebar() {
           <ListItemText primary="Products" />
         </ListItemButton>
 
-        <ListItemButton onClick={() => navigate('/admin/products/new')}>
+        <ListItemButton onClick={() => navigate('/admin/addproduct')}>
           <AddIcon sx={{ mr: 1 }} />
           <ListItemText primary="Add Product" />
         </ListItemButton>
