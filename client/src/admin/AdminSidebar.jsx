@@ -2,7 +2,7 @@ import { Drawer, List, ListItemButton, ListItemText } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import StoreIcon from '@mui/icons-material/Store';
 import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminSidebar() {
@@ -14,6 +14,11 @@ export default function AdminSidebar() {
         <ListItemButton onClick={() => navigate('/admin/products')}>
           <StoreIcon sx={{ mr: 1 }} />
           <ListItemText primary="Products" />
+        </ListItemButton>
+
+        <ListItemButton onClick={() => navigate('/admin/products/new')}>
+          <AddIcon sx={{ mr: 1 }} />
+          <ListItemText primary="Add Product" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate('/admin/clients')}>
