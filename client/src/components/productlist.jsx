@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Box, Typography, TextField, Button, Grid, Paper } from '@mui/material';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -31,70 +31,81 @@ export default function ProductList() {
   });
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Список товарів</h1>
+    <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+      <Typography variant="h4" align="center" sx={{ mb: 4 }}>
+        Список товарів
+      </Typography>
 
-      <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
-        <input
-          type="text"
-          placeholder="Пошук товару..."
+      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+        <TextField
+          label="Пошук товару"
+          variant="outlined"
+          fullWidth
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          style={{ padding: '5px', flex: 1 }}
         />
-        <input
+        <TextField
+          label="Макс. ціна"
           type="number"
-          placeholder="Макс. ціна"
+          variant="outlined"
+          sx={{ width: 150 }}
           value={maxPrice}
           onChange={e => setMaxPrice(e.target.value)}
-          style={{ padding: '5px', width: '120px' }}
         />
-      </div>
+      </Box>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+      <Grid container spacing={3}>
         {filteredProducts.length ? (
           filteredProducts.map(product => (
-            <div
-              key={product._id}
-              style={{
-                border: '1px solid #ccc',
-                padding: '10px',
-                width: '150px',
-              }}
-            >
-              <Link
-                to={`/products/${product._id}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
+            <Grid item xs={12} sm={6} md={3} key={product._id}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: '100%',
+                }}
               >
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  style={{ width: '100%', height: '100px', objectFit: 'cover' }}
-                />
-                <h3>{product.title}</h3>
-              </Link>
-              <p>Ціна: {product.price} грн</p>
-            </div>
+                <Link
+                  to={`/products/${product._id}`}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    width: '100%',
+                  }}
+                >
+                  <img
+                    src={'https://picsum.photos/150'}
+                    alt={product.title}
+                    style={{
+                      width: '100%',
+                      height: 150,
+                      objectFit: 'cover',
+                      borderRadius: 6,
+                      marginBottom: 12,
+                    }}
+                  />
+                  <Typography variant="h6" sx={{ mb: 1 }}>
+                    {product.title}
+                  </Typography>
+                </Link>
+                <Typography variant="body2" sx={{ mb: 2 }}>
+                  Ціна: {product.price} грн
+                </Typography>
+              </Paper>
+            </Grid>
           ))
         ) : (
-          <p>Товари не знайдено</p>
+          <Typography>Товари не знайдено</Typography>
         )}
-      </div>
+      </Grid>
 
-      <button
-        onClick={goToAdmin}
-        style={{
-          marginTop: 20,
-          padding: '10px 20px',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-      >
-        Вхід
-      </button>
-    </div>
+      <Box sx={{ mt: 4, textAlign: 'center' }}>
+        <Button variant="contained" onClick={goToAdmin}>
+          Вхід
+        </Button>
+      </Box>
+    </Box>
   );
 }
