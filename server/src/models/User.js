@@ -38,4 +38,4 @@ const UserSchema = new mongoose.Schema({
   resetTokenExpire: { type: Date, default: null },
 });
 
-export default mongoose.model("User", UserSchema);
+export default mongoose.model("user", UserSchema);
