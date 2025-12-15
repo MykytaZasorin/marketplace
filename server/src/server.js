@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://github.com/MykytaZasorin/marketplace",
+    origin: "https://mykytazasorin.github.io",
     credentials: true,
   })
 );
