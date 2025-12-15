@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Box, Paper, TextField, Button, Typography } from '@mui/material';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ export default function ForgotPassword() {
 
       if (res.ok) {
         setSent(true);
+        // тут сервер має відправити лист із токеном на email
       } else {
         alert(data.error);
       }
@@ -26,23 +28,53 @@ export default function ForgotPassword() {
     }
   };
 
-  if (sent) return <h2>Лист для відновлення паролю відправлено!</h2>;
-
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Відновлення паролю</h1>
-
-      <form onSubmit={handleSend}>
-        <input
-          type="email"
-          placeholder="Введіть ваш Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          style={{ padding: '5px', width: '250px' }}
-        />
-        <br />
-        <button style={{ marginTop: '10px' }}>Відправити лист</button>
-      </form>
-    </div>
+    <Box
+      sx={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pt: 4,
+      }}
+    >
+      <Paper sx={{ p: 4, maxWidth: 400, width: '100%', textAlign: 'center' }}>
+        {!sent ? (
+          <>
+            <Typography variant="h5" mb={2}>
+              Відновлення паролю
+            </Typography>
+            <form onSubmit={handleSend}>
+              <TextField
+                fullWidth
+                type="email"
+                label="Ваш Email"
+                margin="normal"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                sx={{ mt: 2 }}
+              >
+                Відправити лист
+              </Button>
+            </form>
+          </>
+        ) : (
+          <>
+            <Typography variant="h6" mb={1}>
+              Лист для відновлення паролю відправлено!
+            </Typography>
+            <Typography variant="body2">
+              Перевірте вашу пошту та перейдіть за посиланням для створення
+              нового паролю.
+            </Typography>
+          </>
+        )}
+      </Paper>
+    </Box>
   );
 }
