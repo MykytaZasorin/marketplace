@@ -7,19 +7,25 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import ProductList from './components/Productlist';
-import Login from './components/Login';
+
+// Components
+import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
-import ProtectedAdmin from './components/ProtectedAdmin';
-import ForgotPassword from './pages/forgotPassword';
-import ResetPassword from './pages/resetPassword';
+import Login from './components/Login';
 import Cart from './components/Cart';
+import MainLayout from './components/MainLayout';
+import ProtectedAdmin from './components/ProtectedAdmin';
+
+// Pages
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+
+// Admin
 import AdminLayout from './admin/AdminLayout';
 import Dashboard from './admin/AdminDashboard';
 import Products from './admin/Products';
 import Clients from './admin/Clients';
 import AddProduct from './admin/AddProduct';
-import MainLayout from './components/MainLayout';
 
 function AppWrapper() {
   const [cartItems, setCartItems] = useState([]);
