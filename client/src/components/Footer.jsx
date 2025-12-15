@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import PhoneIcon from '@mui/icons-material/Phone'; // можна замінити на Viber іконку, якщо додати svg
+import PhoneIcon from '@mui/icons-material/Phone';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export default function Footer() {

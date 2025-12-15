@@ -7,6 +7,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ command }) => {
   return {
+    base: command === 'serve' ? '/' : '/marketplace/',
+
     define: {
       [command === 'serve' ? 'global' : '_global']: {},
     },
