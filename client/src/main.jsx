@@ -96,7 +96,8 @@ function AppWrapper() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/marketplace">
+    {/* <BrowserRouter basename="/marketplace"> */}
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppWrapper />
     </BrowserRouter>
   </React.StrictMode>

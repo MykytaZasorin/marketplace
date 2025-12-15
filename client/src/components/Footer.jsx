@@ -11,7 +11,7 @@ export default function Footer() {
   };
 
   return (
-    <AppBar position="static" sx={{ top: 'auto', bottom: 0, mt: 2 }}>
+    <AppBar position="static" sx={{ mt: 2 }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6">TechMarket</Typography>
 
