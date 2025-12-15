@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box, Paper, TextField, Button, Typography } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 
 function Login() {
@@ -56,37 +57,60 @@ function Login() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>{isRegister ? 'Реєстрація' : 'Вхід в аккаунт'}</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Логін"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          style={{ padding: '5px', marginRight: '10px', marginBottom: '10px' }}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          style={{ padding: '5px', marginBottom: '10px' }}
-        />
-        <br />
-        <button type="submit">
-          {isRegister ? 'Зареєструватися' : 'Увійти'}
-        </button>
-      </form>
-
-      <button
-        onClick={() => setIsRegister(!isRegister)}
-        style={{ marginTop: '10px' }}
+    <Box
+      sx={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pt: 8,
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          width: '100%',
+          maxWidth: 400,
+          p: 4,
+        }}
       >
-        {isRegister ? 'Увійти' : 'Зареєструватися'}
-      </button>
-    </div>
+        <Typography variant="h5" mb={2} textAlign="center">
+          {isRegister ? 'Реєстрація' : 'Вхід в акаунт'}
+        </Typography>
+
+        <form onSubmit={handleLogin}>
+          <TextField
+            fullWidth
+            label="Email або логін"
+            margin="normal"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+
+          <TextField
+            fullWidth
+            type="password"
+            label="Пароль"
+            margin="normal"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+
+          <Button fullWidth type="submit" variant="contained" sx={{ mt: 2 }}>
+            {isRegister ? 'Зареєструватися' : 'Увійти'}
+          </Button>
+        </form>
+
+        <Button
+          fullWidth
+          variant="text"
+          sx={{ mt: 1 }}
+          onClick={() => setIsRegister(!isRegister)}
+        >
+          {isRegister ? 'Увійти' : 'Зареєструватися'}
+        </Button>
+      </Paper>
+    </Box>
   );
 }
 
