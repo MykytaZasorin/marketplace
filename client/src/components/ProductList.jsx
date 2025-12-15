@@ -9,7 +9,7 @@ export default function ProductList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/products')
+    fetch('https://marketplace-production-2e6c.up.railway.app/products')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setProducts(data);

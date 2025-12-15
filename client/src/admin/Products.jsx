@@ -24,7 +24,9 @@ export default function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('http://localhost:5000/products');
+        const res = await fetch(
+          'https://marketplace-production-2e6c.up.railway.app/products'
+        );
         const data = await res.json();
         setProducts(data);
       } catch (err) {

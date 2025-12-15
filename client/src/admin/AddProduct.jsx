@@ -23,11 +23,14 @@ export default function AddProduct() {
     };
 
     try {
-      await fetch('http://localhost:5000/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProduct),
-      });
+      await fetch(
+        'https://marketplace-production-2e6c.up.railway.app/products',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newProduct),
+        }
+      );
 
       navigate('/admin/products');
     } catch (err) {

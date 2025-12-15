@@ -20,7 +20,9 @@ function Admin() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://localhost:5000/products');
+      const res = await fetch(
+        'https://marketplace-production-2e6c.up.railway.app/products'
+      );
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -37,8 +39,8 @@ function Admin() {
     const newProduct = { title, price: Number(price), image };
     const method = editingId ? 'PUT' : 'POST';
     const url = editingId
-      ? `http://localhost:5000/products/${editingId}`
-      : 'http://localhost:5000/products';
+      ? `https://marketplace-production-2e6c.up.railway.app/products/${editingId}`
+      : 'https://marketplace-production-2e6c.up.railway.app/products';
     const token = localStorage.getItem('userToken');
 
     const res = await fetch(url, {
@@ -72,9 +74,12 @@ function Admin() {
   const deleteProduct = async id => {
     if (!confirm('Ви впевнені, що хочете видалити товар?')) return;
 
-    const res = await fetch(`http://localhost:5000/products/${id}`, {
-      method: 'DELETE',
-    });
+    const res = await fetch(
+      `https://marketplace-production-2e6c.up.railway.app/products/${id}`,
+      {
+        method: 'DELETE',
+      }
+    );
     if (res.ok) {
       alert('Товар видалено!');
       fetchProducts();

@@ -12,11 +12,14 @@ export default function ResetPassword() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:5000/auth/reset/${token}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
+      const res = await fetch(
+        `https://marketplace-production-2e6c.up.railway.app/auth/reset/${token}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        }
+      );
 
       const data = await res.json();
 

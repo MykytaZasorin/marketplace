@@ -10,7 +10,12 @@ import usersRouter from "./routes/users.js";
 
 dotenv.config();
 
-const app = express();
+app.use(
+  cors({
+    origin: "https://github.com/MykytaZasorin/marketplace",
+    credentials: true,
+  })
+);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 

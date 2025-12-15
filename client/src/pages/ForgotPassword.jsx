@@ -9,11 +9,14 @@ export default function ForgotPassword() {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/auth/forgot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const res = await fetch(
+        'https://marketplace-production-2e6c.up.railway.app/auth/forgot',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       const data = await res.json();
 
