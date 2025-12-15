@@ -12,7 +12,7 @@ import {
 import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import Login from './components/Login';
-// import Cart from './components/Cart';
+import Cart from './components/Cart';
 import MainLayout from './components/MainLayout';
 import ProtectedAdmin from './components/ProtectedAdmin';
 
