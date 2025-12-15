@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Box, Paper, TextField, Button, Typography } from '@mui/material';
 
 export default function ResetPassword() {
   const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleReset = async e => {
     e.preventDefault();
@@ -19,8 +21,8 @@ export default function ResetPassword() {
       const data = await res.json();
 
       if (res.ok) {
-        alert('Пароль оновлено!');
-        navigate('/login');
+        setSuccess(true);
+        setTimeout(() => navigate('/login'), 2000);
       } else {
         alert(data.error);
       }
@@ -29,21 +31,57 @@ export default function ResetPassword() {
     }
   };
 
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>Створення нового паролю</h1>
+  if (success) {
+    return (
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pt: 4,
+        }}
+      >
+        <Paper sx={{ p: 4, maxWidth: 400, width: '100%', textAlign: 'center' }}>
+          <Typography variant="h6">Пароль успішно оновлено!</Typography>
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            Ви будете перенаправлені на сторінку логіну
+          </Typography>
+        </Paper>
+      </Box>
+    );
+  }
 
-      <form onSubmit={handleReset}>
-        <input
-          type="password"
-          placeholder="Новий пароль"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          style={{ padding: '5px', width: '250px' }}
-        />
-        <br />
-        <button style={{ marginTop: '10px' }}>Оновити пароль</button>
-      </form>
-    </div>
+  return (
+    <Box
+      sx={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pt: 4,
+      }}
+    >
+      <Paper sx={{ p: 4, maxWidth: 400, width: '100%' }}>
+        <Typography variant="h5" mb={2} textAlign="center">
+          Створення нового паролю
+        </Typography>
+
+        <form onSubmit={handleReset}>
+          <TextField
+            fullWidth
+            type="password"
+            label="Новий пароль"
+            margin="normal"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+
+          <Button fullWidth type="submit" variant="contained" sx={{ mt: 2 }}>
+            Оновити пароль
+          </Button>
+        </form>
+      </Paper>
+    </Box>
   );
 }

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Paper, TextField, Button, Typography } from '@mui/material';
+import { Box, Paper, TextField, Button, Typography, Link } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 
 function Login() {
   useAuth();
+
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -66,14 +67,7 @@ function Login() {
         pt: 8,
       }}
     >
-      <Paper
-        elevation={3}
-        sx={{
-          width: '100%',
-          maxWidth: 400,
-          p: 4,
-        }}
-      >
+      <Paper sx={{ p: 4, maxWidth: 400, width: '100%' }}>
         <Typography variant="h5" mb={2} textAlign="center">
           {isRegister ? 'Реєстрація' : 'Вхід в акаунт'}
         </Typography>
@@ -109,6 +103,14 @@ function Login() {
         >
           {isRegister ? 'Увійти' : 'Зареєструватися'}
         </Button>
+
+        {!isRegister && (
+          <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+            <Link href="/forgot-password" underline="hover">
+              Забули пароль?
+            </Link>
+          </Typography>
+        )}
       </Paper>
     </Box>
   );
