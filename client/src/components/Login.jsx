@@ -29,7 +29,8 @@ function Login() {
 
     try {
       const res = await fetch(
-        'https://marketplace-production-2e6c.up.railway.app/auth/login',
+        'http://localhost:5000/auth/login',
+        // 'https://marketplace-production-2e6c.up.railway.app/auth/login',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

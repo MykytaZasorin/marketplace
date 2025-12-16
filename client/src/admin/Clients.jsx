@@ -16,7 +16,8 @@ export default function Clients() {
     const fetchClients = async () => {
       try {
         const res = await fetch(
-          'https://marketplace-production-2e6c.up.railway.app/users'
+          'http://localhost:5000/users'
+          //   'https://marketplace-production-2e6c.up.railway.app/users'
         );
         const data = await res.json();
         const filteredClients = data.filter(client => client.role !== 'admin');

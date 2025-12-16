@@ -12,12 +12,19 @@ dotenv.config();
 
 const app = express();
 
+// app.use(
+//   cors({
+//     origin: "https://mykytazasorin.github.io",
+//     credentials: true,
+//   })
+// );
 app.use(
   cors({
-    origin: "https://mykytazasorin.github.io",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 app.use("/auth", authRoutes);

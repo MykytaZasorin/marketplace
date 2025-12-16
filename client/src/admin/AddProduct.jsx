@@ -24,7 +24,8 @@ export default function AddProduct() {
 
     try {
       await fetch(
-        'https://marketplace-production-2e6c.up.railway.app/products',
+        // 'https://marketplace-production-2e6c.up.railway.app/products',
+        'http://localhost:5000/products',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

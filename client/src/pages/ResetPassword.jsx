@@ -13,7 +13,8 @@ export default function ResetPassword() {
 
     try {
       const res = await fetch(
-        `https://marketplace-production-2e6c.up.railway.app/auth/reset/${token}`,
+        `http://localhost:5000/auth/reset/${token}`,
+        // `https://marketplace-production-2e6c.up.railway.app/auth/reset/${token}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

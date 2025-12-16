@@ -10,7 +10,8 @@ export default function Register() {
     e.preventDefault();
     try {
       const res = await fetch(
-        'https://marketplace-production-2e6c.up.railway.app/auth/register',
+        'http://localhost:5000/auth/register',
+        // 'https://marketplace-production-2e6c.up.railway.app/auth/register',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

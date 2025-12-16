@@ -7,7 +7,8 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://marketplace-production-2e6c.up.railway.app/products/${id}`)
+    fetch(`http://localhost:5000/products/${id}`)
+      // fetch(`https://marketplace-production-2e6c.up.railway.app/products/${id}`)
       .then(res => res.json())
       .then(data => {
         setProduct(data);

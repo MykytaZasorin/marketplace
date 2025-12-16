@@ -10,7 +10,8 @@ export default function ForgotPassword() {
 
     try {
       const res = await fetch(
-        'https://marketplace-production-2e6c.up.railway.app/auth/forgot',
+        'http://localhost:5000/auth/forgot',
+        // 'https://marketplace-production-2e6c.up.railway.app/auth/forgot',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

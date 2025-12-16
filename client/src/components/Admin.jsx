@@ -75,7 +75,8 @@ function Admin() {
     if (!confirm('Ви впевнені, що хочете видалити товар?')) return;
 
     const res = await fetch(
-      `https://marketplace-production-2e6c.up.railway.app/products/${id}`,
+      `http://localhost:5000/products/${id}`,
+      //   `https://marketplace-production-2e6c.up.railway.app/products/${id}`,
       {
         method: 'DELETE',
       }
