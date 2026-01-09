@@ -6,20 +6,26 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import 'swiper/css';
 
-import CategorySlide from '../components/CategorySlide';
+import CategorySlide from '../../components/CategorySlide';
+import styles from './ProductList.module.css';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [activeIndex, setActiveIndex] = useState(0); // для динамічної назви категорії
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
   const swiperRef = useRef(null);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get('http://localhost:5000/products')
-      .then(res => Array.isArray(res.data) && setProducts(res.data))
-      .catch(err => console.error(err));
+      .then(res => {
+        if (Array.isArray(res.data)) setProducts(res.data);
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
   const filteredProducts = useMemo(() => {
@@ -43,13 +49,21 @@ export default function ProductList() {
 
   const categories = Object.entries(productsByCategory);
 
+  if (loading) {
+    return (
+      <Box className={styles.loaderContainer}>
+        <span className={styles.loader}></span>
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
-      <Typography variant="h4" align="center" sx={{ mb: 4 }}>
-        Product List
+    <Box className={styles.container}>
+      <Typography variant="h4" className={styles.title}>
+        Stay in step with progress
       </Typography>
 
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+      <Box className={styles.filters}>
         <TextField
           label="Search product"
           fullWidth
@@ -59,30 +73,20 @@ export default function ProductList() {
         <TextField
           label="Max price"
           type="number"
-          sx={{ width: 150 }}
           value={maxPrice}
           onChange={e => setMaxPrice(e.target.value)}
+          className={styles.maxPriceField}
         />
       </Box>
 
       {categories.length ? (
         <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mb: 2,
-            }}
-          >
+          <Box className={styles.categoryHeader}>
             <IconButton onClick={() => swiperRef.current?.slidePrev()}>
               <ArrowBackIosIcon />
             </IconButton>
 
-            <Typography
-              variant="h5"
-              sx={{ mx: 2, minWidth: 200, textAlign: 'center' }}
-            >
+            <Typography variant="h5" className={styles.categoryTitle}>
               {categories[activeIndex]?.[0] || ''}
             </Typography>
 
@@ -95,13 +99,9 @@ export default function ProductList() {
             onSwiper={swiper => (swiperRef.current = swiper)}
             slidesPerView={1}
             onSlideChange={() => setActiveIndex(swiperRef.current.activeIndex)}
-            style={{ padding: '20px 0' }}
           >
             {categories.map(([category, items]) => (
-              <SwiperSlide
-                key={category}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
+              <SwiperSlide key={category} className={styles.swiperSlide}>
                 <CategorySlide category={category} products={items} />
               </SwiperSlide>
             ))}

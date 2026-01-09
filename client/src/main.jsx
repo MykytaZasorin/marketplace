@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 
 // Components
-import ProductList from './pages/ProductList';
+import ProductList from './pages/ProductList/ProductList';
 import ProductPage from './pages/ProductPage';
 import Login from './components/Login';
 import Cart from './components/Cart';
